@@ -10,17 +10,18 @@
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.650.0",
     "@aws-sdk/credential-providers": "^3.650.0",
+    "@inquirer/prompts": "^5.5.0",
     "@json2csv/node": "^7.0.6",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
-    "csvtojson": "^2.0.10",
-    "inquirer": "^10.2.2"
+    "csvtojson": "^2.0.10"
   },
   "devDependencies": {
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",
     "@types/chai": "^4",
+    "@types/inquirer": "^9.0.7",
     "@types/mocha": "^10",
     "@types/node": "^18",
     "chai": "^4",

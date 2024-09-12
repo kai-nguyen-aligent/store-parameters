@@ -6,8 +6,8 @@ export type Args<T extends typeof Command> = Interfaces.InferredArgs<T['args']>
 export abstract class BaseCommand<T extends typeof Command> extends Command {
   // define flags that can be inherited by any command that extends BaseCommand
   static baseFlags = {
-    profile: Flags.string({char: 'p', default: 'playground', description: 'AWS profile name in ~/.aws/credentials'}),
-    region: Flags.string({char: 'r', default: 'ap-southeast-2', description: 'AWS region'}),
+    profile: Flags.string({default: 'playground', description: 'AWS profile name in ~/.aws/credentials'}),
+    region: Flags.string({default: 'ap-southeast-2', description: 'AWS region'}),
   }
 
   // add the --json flag

@@ -1,7 +1,8 @@
 import {Parameter} from '@aws-sdk/client-ssm'
+import {fromIni} from '@aws-sdk/credential-providers'
+import {input} from '@inquirer/prompts'
 import {AsyncParser} from '@json2csv/node'
 import csvtojson from 'csvtojson'
-import inquirer from 'inquirer'
 import {writeFileSync} from 'node:fs'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
@@ -20,14 +21,19 @@ export interface StoreParameter {
   Version: number
 }
 
-export const getMFACode = async (serial: string) => {
-  const {mfaCode} = await inquirer.prompt([{message: `Enter MFA code for ${serial}:`, name: 'mfaCode', type: 'input'}])
-  return mfaCode
-}
+const dirname = path.dirname(fileURLToPath(import.meta.url))
+
+export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
+  fromIni({
+    mfaCodeProvider: async (serial: string) => input({message: `Enter MFA code for ${serial}:`}),
+    profile,
+  })
 
 export const parseCSV = async (filePath: string) => {
-  const absolutePath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), filePath)
+  const absolutePath = path.resolve(dirname, filePath)
   const delimiter = filePath.endsWith('.tsv') ? '\t' : ','
+
+  console.log(`Reading SSM params from ${absolutePath}`)
 
   const params = (await csvtojson({delimiter}).fromFile(absolutePath)) as Pick<
     StoreParameter,

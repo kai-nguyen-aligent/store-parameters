@@ -1,9 +1,8 @@
 import {GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-ssm'
-import {fromIni} from '@aws-sdk/credential-providers'
+import {confirm} from '@inquirer/prompts'
 import {Args, Flags} from '@oclif/core'
-import inquirer from 'inquirer'
 
-import {exportToCSV, getMFACode} from '../utils/utilities.js'
+import {exportToCSV, getCredentials} from '../utils/utilities.js'
 import {BaseCommand} from './base-command.js'
 
 export default class Export extends BaseCommand<typeof Export> {
@@ -23,21 +22,15 @@ export default class Export extends BaseCommand<typeof Export> {
     const {args, flags} = await this.parse(Export)
 
     const client = new SSMClient({
-      credentials: fromIni({
-        mfaCodeProvider: getMFACode,
-        profile: flags.profile,
-      }),
+      credentials: await getCredentials(flags.profile),
       region: flags.region,
     })
 
-    const {proceed} = await inquirer.prompt({
-      default: false,
+    const isConfirmed = await confirm({
       message: `Are you sure you want to export SSM parameters from ${flags.profile}?`,
-      name: 'proceed',
-      type: 'confirm',
     })
 
-    if (!proceed) {
+    if (!isConfirmed) {
       return
     }
 

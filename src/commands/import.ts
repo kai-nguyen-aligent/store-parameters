@@ -1,9 +1,8 @@
 import {PutParameterCommand, SSMClient} from '@aws-sdk/client-ssm'
-import {fromIni} from '@aws-sdk/credential-providers'
+import {confirm} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
-import inquirer from 'inquirer'
 
-import {getMFACode, parseCSV} from '../utils/utilities.js'
+import {getCredentials, parseCSV} from '../utils/utilities.js'
 import {BaseCommand} from './base-command.js'
 
 export default class Import extends BaseCommand<typeof Import> {
@@ -19,21 +18,13 @@ export default class Import extends BaseCommand<typeof Import> {
     const {args, flags} = await this.parse(Import)
 
     const client = new SSMClient({
-      credentials: fromIni({
-        mfaCodeProvider: getMFACode,
-        profile: flags.profile,
-      }),
+      credentials: await getCredentials(flags.profile),
       region: flags.region,
     })
 
-    const result = await inquirer.prompt({
-      default: false,
-      message: `Are you sure you want to import SSM parameters to ${flags.profile}?`,
-      name: 'confirm',
-      type: 'confirm',
-    })
+    const isConfirmed = await confirm({message: `Are you sure you want to import SSM parameters to ${flags.profile}?`})
 
-    if (!result.confirm) {
+    if (!isConfirmed) {
       return
     }
 
