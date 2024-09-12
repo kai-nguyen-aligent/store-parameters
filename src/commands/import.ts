@@ -42,6 +42,10 @@ export default class Import extends BaseCommand<typeof Import> {
 
       // eslint-disable-next-line no-await-in-loop
       await client.send(command)
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 200)
+      })
     }
 
     console.log(`Finished importing SSM parameters to ${flags.profile}!`)

@@ -5,7 +5,6 @@ import {AsyncParser} from '@json2csv/node'
 import csvtojson from 'csvtojson'
 import {writeFileSync} from 'node:fs'
 import path from 'node:path'
-import {fileURLToPath} from 'node:url'
 
 export interface StoreParameterResponse {
   Parameters: StoreParameter[]
@@ -21,8 +20,6 @@ export interface StoreParameter {
   Version: number
 }
 
-const dirname = path.dirname(fileURLToPath(import.meta.url))
-
 export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
   fromIni({
     mfaCodeProvider: async (serial: string) => input({message: `Enter MFA code for ${serial}:`}),
@@ -30,7 +27,7 @@ export const getCredentials = async (profile: string): Promise<ReturnType<typeof
   })
 
 export const parseCSV = async (filePath: string) => {
-  const absolutePath = path.resolve(dirname, filePath)
+  const absolutePath = path.resolve(process.cwd(), filePath)
   const delimiter = filePath.endsWith('.tsv') ? '\t' : ','
 
   console.log(`Reading SSM params from ${absolutePath}`)
@@ -44,7 +41,7 @@ export const parseCSV = async (filePath: string) => {
 }
 
 export const exportToCSV = async (parameters: Parameter[], destination: string) => {
-  const absolutePath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), destination)
+  const absolutePath = path.resolve(process.cwd(), destination)
   const delimiter = destination.endsWith('.tsv') ? '\t' : ','
 
   const output = await new AsyncParser({delimiter}).parse(parameters).promise()

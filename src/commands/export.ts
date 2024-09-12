@@ -53,6 +53,11 @@ export default class Export extends BaseCommand<typeof Export> {
       }
 
       nextToken = NextToken
+
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 200)
+      })
     } while (nextToken)
 
     if (parameters.length === 0) {
