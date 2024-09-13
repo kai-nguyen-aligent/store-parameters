@@ -2,8 +2,8 @@ import {PutParameterCommand, SSMClient} from '@aws-sdk/client-ssm'
 import {confirm} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
 
+import {BaseCommand} from '../utils/base-command.js'
 import {getCredentials, parseCSV} from '../utils/utilities.js'
-import {BaseCommand} from './base-command.js'
 
 export default class Import extends BaseCommand<typeof Import> {
   static override args = {

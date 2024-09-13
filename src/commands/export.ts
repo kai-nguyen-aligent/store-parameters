@@ -2,8 +2,8 @@ import {GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-
 import {confirm} from '@inquirer/prompts'
 import {Args, Flags} from '@oclif/core'
 
+import {BaseCommand} from '../utils/base-command.js'
 import {exportToCSV, getCredentials} from '../utils/utilities.js'
-import {BaseCommand} from './base-command.js'
 
 export default class Export extends BaseCommand<typeof Export> {
   static override args = {
