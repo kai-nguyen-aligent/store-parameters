@@ -24,7 +24,7 @@ jobs:
         with:
           path: ./dist/
           overwrite: true
-      - name: Publish to NPM
-        uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish to NPM
+      #   uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c
+      #   with:
+      #     token: ${{ secrets.NPM_TOKEN }}
