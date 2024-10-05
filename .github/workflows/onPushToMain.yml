@@ -52,11 +52,16 @@ jobs:
             git commit -am "chore: update README.md"
             git push -u origin ${{ github.ref_name }}
           fi
+      - name: Pack tarballs
+        if: ${{ steps.version-check.outputs.skipped == 'false' }}
+        run: |
+          pnpm exec oclif pack tarballs -r .
       - name: Create Github Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
         with:
           name: ${{ steps.version-check.outputs.tag }}
+          artifacts: dist/*
           tag: ${{ steps.version-check.outputs.tag }}
           commit: ${{ github.ref_name }}
           token: ${{ github.token }}
