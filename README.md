@@ -7,14 +7,16 @@ CLI tool for import and export SSM parameters
 [![Downloads/week](https://img.shields.io/npm/dw/store-parameters.svg)](https://npmjs.org/package/store-parameters)
 
 <!-- toc -->
-* [store-parameters](#store-parameters)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [store-parameters](#store-parameters)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
@@ -26,24 +28,24 @@ USAGE
   $ store-parameters COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
-* [`store-parameters plugins`](#store-parameters-plugins)
-* [`store-parameters plugins add PLUGIN`](#store-parameters-plugins-add-plugin)
-* [`store-parameters plugins:inspect PLUGIN...`](#store-parameters-pluginsinspect-plugin)
-* [`store-parameters plugins install PLUGIN`](#store-parameters-plugins-install-plugin)
-* [`store-parameters plugins link PATH`](#store-parameters-plugins-link-path)
-* [`store-parameters plugins remove [PLUGIN]`](#store-parameters-plugins-remove-plugin)
-* [`store-parameters plugins reset`](#store-parameters-plugins-reset)
-* [`store-parameters plugins uninstall [PLUGIN]`](#store-parameters-plugins-uninstall-plugin)
-* [`store-parameters plugins unlink [PLUGIN]`](#store-parameters-plugins-unlink-plugin)
-* [`store-parameters plugins update`](#store-parameters-plugins-update)
+
+- [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+- [`store-parameters plugins`](#store-parameters-plugins)
+- [`store-parameters plugins add PLUGIN`](#store-parameters-plugins-add-plugin)
+- [`store-parameters plugins:inspect PLUGIN...`](#store-parameters-pluginsinspect-plugin)
+- [`store-parameters plugins install PLUGIN`](#store-parameters-plugins-install-plugin)
+- [`store-parameters plugins link PATH`](#store-parameters-plugins-link-path)
+- [`store-parameters plugins remove [PLUGIN]`](#store-parameters-plugins-remove-plugin)
+- [`store-parameters plugins reset`](#store-parameters-plugins-reset)
+- [`store-parameters plugins uninstall [PLUGIN]`](#store-parameters-plugins-uninstall-plugin)
+- [`store-parameters plugins unlink [PLUGIN]`](#store-parameters-plugins-unlink-plugin)
+- [`store-parameters plugins update`](#store-parameters-plugins-update)
 
 ## `store-parameters export FILE`
 
@@ -408,6 +410,7 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.7/src/commands/plugins/update.ts)_
+
 <!-- commandsstop -->
 
 - [`store-parameters import FILE`](#store-parameters-import-file)
