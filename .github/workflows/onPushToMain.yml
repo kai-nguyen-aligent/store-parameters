@@ -41,21 +41,22 @@ jobs:
         run: |
           git config --global user.email ${{ secrets.GH_EMAIL }}
           git config --global user.name ${{ secrets.GH_USERNAME }}
-      - name: Generate oclif README
+      - name: Install dependencies
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
-        id: oclif-readme
+        run: |
+          sudo apt update
+          sudo apt install nsis p7zip-full p7zip-rar -y
+      - name: Pack tarballs & generate oclif README
+        if: ${{ steps.version-check.outputs.skipped == 'false' }}
         run: |
           pnpm install --frozen-lockfile
-          pnpm exec oclif readme
+          pnpm exec oclif manifest && oclif readme
+          pnpm exec oclif pack tarballs -r .
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -am "chore: update README.md"
             git push -u origin ${{ github.ref_name }}
           fi
-      - name: Pack tarballs
-        if: ${{ steps.version-check.outputs.skipped == 'false' }}
-        run: |
-          pnpm exec oclif pack tarballs -r .
       - name: Create Github Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
