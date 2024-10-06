@@ -50,7 +50,8 @@ jobs:
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
         run: |
           pnpm install --frozen-lockfile
-          pnpm exec oclif manifest && oclif readme
+          pnpm exec oclif manifest 
+          pnpm exec oclif readme
           pnpm exec oclif pack tarballs -r .
           if [ -n "$(git status --porcelain)" ]; then
             git add .
