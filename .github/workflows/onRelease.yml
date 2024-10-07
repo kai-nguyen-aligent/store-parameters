@@ -8,21 +8,27 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Install dependencies
+        run: |
           sudo apt update
           sudo apt install nsis p7zip-full p7zip-rar -y
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: latest
-      - name: Generate artifacts
+          node-version: 20
+          cache: 'pnpm'
+      - name: Pack tarballs
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
           pnpm exec oclif pack tarballs -r .
       - name: Attach artifacts to release
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/
+          path: dist/*
           overwrite: true
       # - name: Publish to NPM
       #   uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c

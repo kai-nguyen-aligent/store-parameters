@@ -20,7 +20,7 @@ $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/0.0.3 linux-x64 node-v20.17.0
+store-parameters/0.0.3 linux-x64 node-v20.16.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
