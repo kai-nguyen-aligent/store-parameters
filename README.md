@@ -22,7 +22,7 @@ CLI tool for import and export SSM parameters
 # If `~/bin` does not exist, run
 mkdir -p ~/bin
 tar -xzf store-parameters-v0.0.5-eba96c0-linux-x64.tar.gz -C ~/bin
-chmod +x ~/bin/store-parameters
+chmod +x ~/bin/store-parameters/bin/store-parameters
 # Add new binary to your PATH
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
