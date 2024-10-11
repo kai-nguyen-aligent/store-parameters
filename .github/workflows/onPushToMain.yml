@@ -49,14 +49,15 @@ jobs:
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
         run: |
           pnpm install --frozen-lockfile
-          pnpm exec oclif manifest 
-          pnpm exec oclif readme
+          pnpm run build
+          pnpm run prepack
           pnpm exec oclif pack tarballs -r .
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -am "chore: update README.md"
             git push -u origin ${{ github.ref_name }}
           fi
+          pnpm run postpack
       - name: Create Github Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
