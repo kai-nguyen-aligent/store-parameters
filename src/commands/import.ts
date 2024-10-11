@@ -1,9 +1,10 @@
+/* eslint-disable no-await-in-loop */
 import {PutParameterCommand, SSMClient} from '@aws-sdk/client-ssm'
 import {confirm} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
 
 import {BaseCommand} from '../utils/base-command.js'
-import {getCredentials, parseCSV} from '../utils/utilities.js'
+import {getCredentials, getProfileFromCredentials, parseCSV} from '../utils/utilities.js'
 
 export default class Import extends BaseCommand<typeof Import> {
   static override args = {
@@ -16,19 +17,22 @@ export default class Import extends BaseCommand<typeof Import> {
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Import)
+    const {debug, profile, region} = flags
 
+    const awsProfile = profile || (await getProfileFromCredentials(this, debug))
     const client = new SSMClient({
-      credentials: await getCredentials(flags.profile),
-      region: flags.region,
+      credentials: await getCredentials(awsProfile),
+      region,
     })
 
-    const isConfirmed = await confirm({message: `Are you sure you want to import SSM parameters to ${flags.profile}?`})
+    const isConfirmed = await confirm({message: `Are you sure you want to import SSM parameters to ${awsProfile}?`})
 
     if (!isConfirmed) {
+      this.warn('Operation cancelled by user')
       return
     }
 
-    const params = await parseCSV(args.file)
+    const params = await parseCSV(args.file, this, debug)
 
     for (const param of params) {
       const command = new PutParameterCommand({
@@ -38,16 +42,14 @@ export default class Import extends BaseCommand<typeof Import> {
         Value: param.Value,
       })
 
-      console.log(`Importing ${param.Name} as ${param.Type}...`)
+      this.log(`Importing ${param.Name} as ${param.Type}...`)
 
-      // eslint-disable-next-line no-await-in-loop
       await client.send(command)
-      // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {
         setTimeout(resolve, 200)
       })
     }
 
-    console.log(`Finished importing SSM parameters to ${flags.profile}!`)
+    this.log(`Imported ${params.length} parameters to ${awsProfile} Parameter Store!`)
   }
 }

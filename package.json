@@ -14,7 +14,6 @@
     "@json2csv/node": "^7.0.6",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5",
     "csvtojson": "^2.0.10"
   },
   "devDependencies": {
@@ -55,15 +54,8 @@
     "dirname": "store-parameters",
     "commands": "./dist/commands",
     "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
-    ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
+      "@oclif/plugin-help"
+    ]
   },
   "repository": "kai-nguyen-aligent/store-parameters",
   "scripts": {

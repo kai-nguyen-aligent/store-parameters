@@ -1,9 +1,10 @@
+/* eslint-disable no-await-in-loop */
 import {GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-ssm'
 import {confirm} from '@inquirer/prompts'
 import {Args, Flags} from '@oclif/core'
 
 import {BaseCommand} from '../utils/base-command.js'
-import {exportToCSV, getCredentials} from '../utils/utilities.js'
+import {exportToCSV, getCredentials, getProfileFromCredentials} from '../utils/utilities.js'
 
 export default class Export extends BaseCommand<typeof Export> {
   static override args = {
@@ -20,17 +21,21 @@ export default class Export extends BaseCommand<typeof Export> {
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Export)
+    const {debug, path, profile, region} = flags
+
+    const awsProfile = profile || (await getProfileFromCredentials(this, debug))
 
     const client = new SSMClient({
-      credentials: await getCredentials(flags.profile),
-      region: flags.region,
+      credentials: await getCredentials(awsProfile),
+      region,
     })
 
     const isConfirmed = await confirm({
-      message: `Are you sure you want to export SSM parameters from ${flags.profile}?`,
+      message: `Are you sure you want to export SSM parameters from ${awsProfile}?`,
     })
 
     if (!isConfirmed) {
+      this.warn('Operation cancelled by user')
       return
     }
 
@@ -38,9 +43,8 @@ export default class Export extends BaseCommand<typeof Export> {
     let nextToken: string | undefined
 
     do {
-      const command = new GetParametersByPathCommand({MaxResults: 100, Path: flags.path})
+      const command = new GetParametersByPathCommand({MaxResults: 100, Path: path})
 
-      // eslint-disable-next-line no-await-in-loop
       const {NextToken, Parameters} = await client.send(command)
 
       if (Parameters) {
@@ -54,7 +58,6 @@ export default class Export extends BaseCommand<typeof Export> {
 
       nextToken = NextToken
 
-      // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {
         setTimeout(resolve, 200)
       })
@@ -65,6 +68,7 @@ export default class Export extends BaseCommand<typeof Export> {
       return
     }
 
-    await exportToCSV(parameters, args.file)
+    await exportToCSV(parameters, args.file, this)
+    this.log(`Exported ${parameters.length} parameters to ${args.file}!`)
   }
 }
