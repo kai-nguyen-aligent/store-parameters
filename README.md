@@ -7,12 +7,11 @@ CLI tool for import and export SSM parameters
 [![Downloads/week](https://img.shields.io/npm/dw/store-parameters.svg)](https://npmjs.org/package/store-parameters)
 
 <!-- toc -->
-* [store-parameters](#store-parameters)
-* [Binary Usage](#binary-usage)
-* [If `~/bin` does not exist, run](#if-bin-does-not-exist-run)
-* [Add new binary to your PATH](#add-new-binary-to-your-path)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [store-parameters](#store-parameters)
+- [Binary Usage](#binary-usage)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 # Binary Usage
@@ -21,25 +20,26 @@ CLI tool for import and export SSM parameters
 2. Extract the binary and add to your PATH:
 
 ```bash
-# If `~/bin` does not exist, run
-mkdir -p ~/bin
-tar -xzf store-parameters-v0.0.5-eba96c0-linux-x64.tar.gz -C ~/bin
-chmod +x ~/bin/store-parameters/bin/store-parameters
-# Add new binary to your PATH
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+  # If `~/bin` does not exist, run
+  mkdir -p ~/bin
+  tar -xzf store-parameters-v0.0.5-eba96c0-linux-x64.tar.gz -C ~/bin
+  chmod +x ~/bin/store-parameters/bin/store-parameters
+  # Add new binary to your PATH
+  echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+  source ~/.bashrc
 ```
 
 3. Test if the tool works correctly
 
 ```sh-session
-$ store-parameters (--version)
-store-parameters/0.0.5 linux-x64 node-v20.16.0
+  $ store-parameters (--version)
+  store-parameters/0.0.6 linux-x64 node-v20.18.0
 ```
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
@@ -51,14 +51,16 @@ USAGE
   $ store-parameters COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
+
+- [`store-parameters export FILE`](#store-parameters-export-file)
+- [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+- [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -139,4 +141,5 @@ EXAMPLES
 ```
 
 _See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.6/src/commands/import.ts)_
+
 <!-- commandsstop -->
