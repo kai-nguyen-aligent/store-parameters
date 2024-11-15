@@ -9,6 +9,7 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     debug: Flags.boolean({description: 'Enable debug mode'}),
     profile: Flags.string({description: 'AWS profile name in ~/.aws/credentials'}),
     region: Flags.string({default: 'ap-southeast-2', description: 'AWS region'}),
+    delimiter: Flags.string({char: 'd', description: 'Custom delimiter of csv file', required: false}),
   }
 
   // add the --json flag

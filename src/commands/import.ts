@@ -20,10 +20,6 @@ export default class Import extends BaseCommand<typeof Import> {
     const {debug, profile, region} = flags
 
     const awsProfile = profile || (await getProfileFromCredentials(this, debug))
-    const client = new SSMClient({
-      credentials: await getCredentials(awsProfile),
-      region,
-    })
 
     const isConfirmed = await confirm({message: `Are you sure you want to import SSM parameters to ${awsProfile}?`})
 
@@ -32,7 +28,13 @@ export default class Import extends BaseCommand<typeof Import> {
       return
     }
 
-    const params = await parseCSV(args.file, this, debug)
+    const credentials = await getCredentials(awsProfile)
+    const client = new SSMClient({
+      credentials,
+      region,
+    })
+
+    const params = await parseCSV(args.file, flags.delimiter, this, debug)
 
     for (const param of params) {
       const command = new PutParameterCommand({

@@ -25,11 +25,6 @@ export default class Export extends BaseCommand<typeof Export> {
 
     const awsProfile = profile || (await getProfileFromCredentials(this, debug))
 
-    const client = new SSMClient({
-      credentials: await getCredentials(awsProfile),
-      region,
-    })
-
     const isConfirmed = await confirm({
       message: `Are you sure you want to export SSM parameters from ${awsProfile}?`,
     })
@@ -38,6 +33,12 @@ export default class Export extends BaseCommand<typeof Export> {
       this.warn('Operation cancelled by user')
       return
     }
+
+    const credentials = await getCredentials(awsProfile)
+    const client = new SSMClient({
+      credentials,
+      region,
+    })
 
     const parameters: Parameter[] = []
     let nextToken: string | undefined
@@ -68,7 +69,7 @@ export default class Export extends BaseCommand<typeof Export> {
       return
     }
 
-    await exportToCSV(parameters, args.file, this)
+    await exportToCSV(parameters, args.file, flags.delimiter, this)
     this.log(`Exported ${parameters.length} parameters to ${args.file}!`)
   }
 }
