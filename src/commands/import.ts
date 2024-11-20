@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import {PutParameterCommand, SSMClient} from '@aws-sdk/client-ssm'
-import {confirm} from '@inquirer/prompts'
+import {confirm, input} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
 
 import {BaseCommand} from '../utils/base-command.js'
@@ -27,14 +27,13 @@ export default class Import extends BaseCommand<typeof Import> {
       this.warn('Operation cancelled by user')
       return
     }
+    const params = await parseCSV(args.file, flags.delimiter, this, debug)
 
-    const credentials = await getCredentials(awsProfile)
+    const mfaCode = await input({message: `Enter MFA code for ${awsProfile}`})
     const client = new SSMClient({
-      credentials,
+      credentials: await getCredentials(awsProfile, mfaCode),
       region,
     })
-
-    const params = await parseCSV(args.file, flags.delimiter, this, debug)
 
     for (const param of params) {
       const command = new PutParameterCommand({

@@ -23,9 +23,9 @@ export interface StoreParameter {
   Version: number
 }
 
-export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
+export const getCredentials = async (profile: string, mfaCode: string): Promise<ReturnType<typeof fromIni>> =>
   fromIni({
-    mfaCodeProvider: async (serial: string) => input({message: `Enter MFA code for ${serial}:`}),
+    mfaCodeProvider: async () => mfaCode,
     profile,
   })
 
@@ -60,6 +60,8 @@ export const parseCSV = async (
     StoreParameter,
     'Name' | 'Type' | 'Value'
   >[]
+
+  // TODO: CSV validation
 
   return params
 }
