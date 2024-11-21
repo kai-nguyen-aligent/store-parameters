@@ -7,11 +7,10 @@ CLI tool for import and export SSM parameters
 [![Downloads/week](https://img.shields.io/npm/dw/store-parameters.svg)](https://npmjs.org/package/store-parameters)
 
 <!-- toc -->
-
-- [store-parameters](#store-parameters)
-- [Binary Usage](#binary-usage)
-- [Usage](#usage)
-- [Commands](#commands)
+* [store-parameters](#store-parameters)
+* [Binary Usage](#binary-usage)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Binary Usage
@@ -39,28 +38,25 @@ CLI tool for import and export SSM parameters
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/0.0.6 linux-x64 node-v20.18.0
+store-parameters/0.0.7 linux-x64 node-v20.18.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`store-parameters export FILE`](#store-parameters-export-file)
-- [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-- [`store-parameters import FILE`](#store-parameters-import-file)
+* [`store-parameters export FILE`](#store-parameters-export-file)
+* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+* [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -91,7 +87,7 @@ EXAMPLES
   $ store-parameters export <path-to-csv-file> --path </ssm/path>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.6/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.7/src/commands/export.ts)_
 
 ## `store-parameters help [COMMAND]`
 
@@ -140,6 +136,5 @@ EXAMPLES
   $ store-parameters import <path-to-csv-file>
 ```
 
-_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.6/src/commands/import.ts)_
-
+_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.7/src/commands/import.ts)_
 <!-- commandsstop -->
