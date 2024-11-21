@@ -1,7 +1,7 @@
 {
   "name": "store-parameters",
   "description": "CLI tool for import and export SSM parameters",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Kai Nguyen",
   "bin": {
     "store-parameters": "./bin/run.js"
