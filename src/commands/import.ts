@@ -1,7 +1,8 @@
 /* eslint-disable no-await-in-loop */
 import {PutParameterCommand, SSMClient} from '@aws-sdk/client-ssm'
-import {confirm, input} from '@inquirer/prompts'
+import {confirm} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
+import chalk from 'chalk'
 
 import {BaseCommand} from '../utils/base-command.js'
 import {getCredentials, getProfileFromCredentials, parseCSV} from '../utils/utilities.js'
@@ -29,9 +30,8 @@ export default class Import extends BaseCommand<typeof Import> {
     }
     const params = await parseCSV(args.file, flags.delimiter, this, debug)
 
-    const mfaCode = await input({message: `Enter MFA code for ${awsProfile}`})
     const client = new SSMClient({
-      credentials: await getCredentials(awsProfile, mfaCode),
+      credentials: await getCredentials(awsProfile),
       region,
     })
 
@@ -43,14 +43,14 @@ export default class Import extends BaseCommand<typeof Import> {
         Value: param.Value,
       })
 
-      this.log(`Importing ${param.Name} as ${param.Type}...`)
-
       await client.send(command)
+      this.log(`Imported ${param.Name} as ${param.Type}...`)
+
       await new Promise((resolve) => {
         setTimeout(resolve, 200)
       })
     }
 
-    this.log(`Imported ${params.length} parameters to ${awsProfile} Parameter Store!`)
+    this.log(chalk.greenBright(`All ${params.length} parameters are imported to ${awsProfile} Parameter Store!`))
   }
 }

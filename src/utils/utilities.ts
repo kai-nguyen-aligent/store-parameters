@@ -23,9 +23,9 @@ export interface StoreParameter {
   Version: number
 }
 
-export const getCredentials = async (profile: string, mfaCode: string): Promise<ReturnType<typeof fromIni>> =>
+export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
   fromIni({
-    mfaCodeProvider: async () => mfaCode,
+    mfaCodeProvider: async (serial: string) => input({message: `Enter MFA code for ${serial}:`}),
     profile,
   })
 

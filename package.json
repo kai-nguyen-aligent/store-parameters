@@ -1,7 +1,7 @@
 {
   "name": "store-parameters",
   "description": "CLI tool for import and export SSM parameters",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Kai Nguyen",
   "bin": {
     "store-parameters": "./bin/run.js"
@@ -14,6 +14,7 @@
     "@json2csv/node": "^7.0.6",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
+    "chalk": "^5.4.1",
     "csvtojson": "^2.0.10"
   },
   "devDependencies": {
@@ -68,5 +69,5 @@
     "version": "oclif readme && git add README.md"
   },
   "types": "dist/index.d.ts",
-  "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf"
+  "packageManager": "pnpm@10.6.3+sha512.bb45e34d50a9a76e858a95837301bfb6bd6d35aea2c5d52094fa497a467c43f5c440103ce2511e9e0a2f89c3d6071baac3358fc68ac6fb75e2ceb3d2736065e6"
 }

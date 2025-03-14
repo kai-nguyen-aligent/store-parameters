@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import {GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-ssm'
-import {confirm, input} from '@inquirer/prompts'
+import {confirm} from '@inquirer/prompts'
 import {Args, Flags} from '@oclif/core'
 
 import {BaseCommand} from '../utils/base-command.js'
@@ -34,9 +34,8 @@ export default class Export extends BaseCommand<typeof Export> {
       return
     }
 
-    const mfaCode = await input({message: `Enter MFA code for ${awsProfile}`})
     const client = new SSMClient({
-      credentials: await getCredentials(awsProfile, mfaCode),
+      credentials: await getCredentials(awsProfile),
       region,
     })
 
