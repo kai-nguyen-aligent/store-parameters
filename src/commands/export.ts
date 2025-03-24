@@ -39,11 +39,18 @@ export default class Export extends BaseCommand<typeof Export> {
       region,
     })
 
+    const Path = path.endsWith('/') ? path.slice(0, -1) : path
     const parameters: Parameter[] = []
     let nextToken: string | undefined
 
     do {
-      const command = new GetParametersByPathCommand({MaxResults: 10, Path: path})
+      const command = new GetParametersByPathCommand({
+        MaxResults: 10,
+        Path,
+        Recursive: true,
+        NextToken: nextToken,
+        WithDecryption: true,
+      })
 
       const {NextToken, Parameters} = await client.send(command)
 
