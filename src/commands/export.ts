@@ -43,7 +43,7 @@ export default class Export extends BaseCommand<typeof Export> {
     let nextToken: string | undefined
 
     do {
-      const command = new GetParametersByPathCommand({MaxResults: 100, Path: path})
+      const command = new GetParametersByPathCommand({MaxResults: 10, Path: path})
 
       const {NextToken, Parameters} = await client.send(command)
 
