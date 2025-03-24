@@ -43,7 +43,7 @@ $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/0.0.8 linux-x64 node-v20.18.3
+store-parameters/0.0.9 linux-x64 node-v20.19.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
@@ -87,7 +87,7 @@ EXAMPLES
   $ store-parameters export <path-to-csv-file> --path </ssm/path>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.8/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.9/src/commands/export.ts)_
 
 ## `store-parameters help [COMMAND]`
 
@@ -136,5 +136,5 @@ EXAMPLES
   $ store-parameters import <path-to-csv-file>
 ```
 
-_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.8/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v0.0.9/src/commands/import.ts)_
 <!-- commandsstop -->
