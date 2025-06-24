@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
       - name: Check if version already exists
         id: version-check
         run: |
@@ -40,7 +41,23 @@ jobs:
         run: |
           git config --global user.email ${{ secrets.GH_EMAIL }}
           git config --global user.name ${{ secrets.GH_USERNAME }}
-      - name: Install dependencies
+      - name: Build & generate oclif README
+        if: ${{ steps.version-check.outputs.skipped == 'false' }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+          pnpm run prepack
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -am "chore: update README.md"
+            git push -u origin ${{ github.ref_name }}
+          fi
+      - name: Publish to NPM
+        if: ${{ steps.version-check.outputs.skipped == 'false' }}
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install tarballs dependencies
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
         run: |
           sudo apt update
@@ -48,15 +65,7 @@ jobs:
       - name: Pack tarballs & generate oclif README
         if: ${{ steps.version-check.outputs.skipped == 'false' }}
         run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
-          pnpm run prepack
           pnpm exec oclif pack tarballs -r .
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git commit -am "chore: update README.md"
-            git push -u origin ${{ github.ref_name }}
-          fi
           pnpm run postpack
       - name: Create Github Release
         uses: ncipollo/release-action@v1
@@ -68,8 +77,3 @@ jobs:
           commit: ${{ github.ref_name }}
           token: ${{ github.token }}
           skipIfReleaseExists: true
-      - name: Publish to NPM
-        if: ${{ steps.version-check.outputs.skipped == 'false' }}
-        run: pnpm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
