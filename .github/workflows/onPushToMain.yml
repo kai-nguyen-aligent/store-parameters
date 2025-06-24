@@ -68,3 +68,8 @@ jobs:
           commit: ${{ github.ref_name }}
           token: ${{ github.token }}
           skipIfReleaseExists: true
+      - name: Publish to NPM
+        if: ${{ steps.version-check.outputs.skipped == 'false' }}
+        run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
