@@ -5,12 +5,14 @@ CLI tool for import and export SSM parameters
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/store-parameters.svg)](https://npmjs.org/package/store-parameters)
 [![Downloads/week](https://img.shields.io/npm/dw/store-parameters.svg)](https://npmjs.org/package/store-parameters)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20Me-orange)](https://coff.ee/kai.nguyen)
 
 <!-- toc -->
-* [store-parameters](#store-parameters)
-* [Binary Usage](#binary-usage)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [store-parameters](#store-parameters)
+- [Binary Usage](#binary-usage)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 # Binary Usage
@@ -38,6 +40,7 @@ CLI tool for import and export SSM parameters
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
@@ -49,14 +52,16 @@ USAGE
   $ store-parameters COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
+
+- [`store-parameters export FILE`](#store-parameters-export-file)
+- [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+- [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -137,4 +142,5 @@ EXAMPLES
 ```
 
 _See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.0.3/src/commands/import.ts)_
+
 <!-- commandsstop -->
