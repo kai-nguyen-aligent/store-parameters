@@ -8,11 +8,10 @@ CLI tool for import and export SSM parameters
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20Me-orange)](https://coff.ee/kai.nguyen)
 
 <!-- toc -->
-
-- [store-parameters](#store-parameters)
-- [Binary Usage](#binary-usage)
-- [Usage](#usage)
-- [Commands](#commands)
+* [store-parameters](#store-parameters)
+* [Binary Usage](#binary-usage)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Binary Usage
@@ -40,28 +39,25 @@ CLI tool for import and export SSM parameters
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/1.0.3 linux-x64 node-v20.19.2
+store-parameters/1.0.3 linux-x64 node-v22.14.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`store-parameters export FILE`](#store-parameters-export-file)
-- [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-- [`store-parameters import FILE`](#store-parameters-import-file)
+* [`store-parameters export FILE`](#store-parameters-export-file)
+* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+* [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -142,5 +138,4 @@ EXAMPLES
 ```
 
 _See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.0.3/src/commands/import.ts)_
-
 <!-- commandsstop -->

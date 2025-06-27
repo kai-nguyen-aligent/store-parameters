@@ -2,6 +2,7 @@
 import {Parameter} from '@aws-sdk/client-ssm'
 import {fromIni} from '@aws-sdk/credential-providers'
 import {input, select} from '@inquirer/prompts'
+import stringQuoteOnlyIfNecessaryFormatter from '@json2csv/formatters/stringQuoteOnlyIfNecessary.js'
 import {AsyncParser} from '@json2csv/node'
 import {Command} from '@oclif/core'
 import csvtojson from 'csvtojson'
@@ -84,7 +85,14 @@ export const exportToCSV = async (
     fs.mkdirSync(dir, {recursive: true})
 
     const delimiter = determineDelimiter(destination, customDelimiter)
-    const output = await new AsyncParser({delimiter}).parse(parameters).promise()
+    const output = await new AsyncParser({
+      delimiter,
+      formatters: {
+        string: stringQuoteOnlyIfNecessaryFormatter({escapedQuote: '\\"'}),
+      },
+    })
+      .parse(parameters)
+      .promise()
 
     if (debug) {
       command.log(`Exporting to file: ${absolutePath} with delimiter "${delimiter}"`)

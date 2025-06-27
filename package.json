@@ -11,6 +11,7 @@
     "@aws-sdk/client-ssm": "^3.772.0",
     "@aws-sdk/credential-providers": "^3.772.0",
     "@inquirer/prompts": "^5.5.0",
+    "@json2csv/formatters": "^7.0.6",
     "@json2csv/node": "^7.0.6",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
