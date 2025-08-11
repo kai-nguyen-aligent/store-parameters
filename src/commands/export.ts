@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import {GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-ssm'
+import {GetParameterCommand, GetParametersByPathCommand, Parameter, SSMClient} from '@aws-sdk/client-ssm'
 import {confirm} from '@inquirer/prompts'
 import {Args, Flags} from '@oclif/core'
 
@@ -71,8 +71,25 @@ export default class Export extends BaseCommand<typeof Export> {
     } while (nextToken)
 
     if (parameters.length === 0) {
-      console.log('No parameters found to export')
-      return
+      // Try to get the parameter as a specific parameter name
+      try {
+        const command = new GetParameterCommand({
+          Name: Path,
+          WithDecryption: true,
+        })
+
+        const {Parameter} = await client.send(command)
+
+        if (Parameter) {
+          parameters.push({
+            Name: Parameter.Name,
+            Type: Parameter.Type,
+            Value: Parameter.Value,
+          })
+        }
+      } catch {
+        this.error(`No parameters found at ${Path}. It might not be a valid path or parameter.`)
+      }
     }
 
     await exportToCSV(parameters, args.file, flags.delimiter, this)
