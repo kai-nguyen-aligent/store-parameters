@@ -88,7 +88,7 @@ export const exportToCSV = async (
     const output = await new AsyncParser({
       delimiter,
       formatters: {
-        string: stringQuoteOnlyIfNecessaryFormatter({escapedQuote: '\\"'}),
+        string: stringQuoteOnlyIfNecessaryFormatter({escapedQuote: '', quote: ''}),
       },
     })
       .parse(parameters)
@@ -122,33 +122,37 @@ export const exportToCSV = async (
 }
 
 export async function getProfileFromCredentials(command: Command, debug = false) {
+  const configPath = path.join(os.homedir(), '.aws', 'config')
+  const configProfiles = collectProfiles(configPath, /^\[profile ([^\]]+)]/gm, command, debug)
+
   const credentialsPath = path.join(os.homedir(), '.aws', 'credentials')
+  const credentialsProfiles = collectProfiles(credentialsPath, /^\[([^\]]+)]/gm, command, debug)
 
+  const profiles = [...new Set([...configProfiles, ...credentialsProfiles])]
+  if (profiles.length === 0) {
+    command.error(`No AWS profiles found in ${configPath} or ${credentialsPath}`, {exit: 1})
+  }
+
+  return await select({
+    choices: profiles.map((p) => ({name: p, value: p})),
+    message: 'Please select an AWS profile:',
+  })
+}
+
+function collectProfiles(path: string, reg: RegExp, command: Command, debug = false) {
+  let profiles: string[] = []
   try {
-    checkFileAccess(credentialsPath, command, debug)
-
-    const fileContent = fs.readFileSync(credentialsPath, 'utf8')
-    // The regex matches lines that start with a square bracket, capturing the profile name inside.
-    const profileRegex = /^\[([^\]]+)]/gm
-    const profiles: string[] = []
+    checkFileAccess(path, command, debug)
+    const configContent = fs.readFileSync(path, 'utf8')
     let match
-
-    while ((match = profileRegex.exec(fileContent)) !== null) {
+    while ((match = reg.exec(configContent)) !== null) {
       profiles.push(match[1])
     }
-
-    if (profiles.length === 0) {
-      throw new Error(`No profiles found in ${credentialsPath}`)
-    }
-
-    return await select({
-      choices: profiles.map((p) => ({name: p, value: p})),
-      message: 'Please select an AWS profile:',
-    })
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error)
-    command.error(errorMessage, {exit: 1})
+  } catch {
+    command.log(`No ${path} found or not readable. Skipping...`)
   }
+
+  return profiles
 }
 
 export function checkFileAccess(filePath: string, command: Command, debug = false): void {
@@ -163,23 +167,23 @@ export function checkFileAccess(filePath: string, command: Command, debug = fals
       const nodeError = error as NodeJS.ErrnoException
       switch (nodeError.code) {
         case 'ENOENT': {
-          command.error(`File not found: ${filePath}`, {exit: 1})
+          throw new Error(`File not found: ${filePath}`)
         }
 
         case 'EACCES': {
-          command.error(`Permission denied. Cannot read file: ${filePath}`, {exit: 1})
+          throw new Error(`Permission denied. Cannot read file: ${filePath}`)
         }
 
         case 'EPERM': {
-          command.error(`Operation not permitted on file: ${filePath}`, {exit: 1})
+          throw new Error(`Operation not permitted on file: ${filePath}`)
         }
 
         default: {
-          command.error(`Unexpected error accessing file ${filePath}: ${error.message}`, {exit: 1})
+          throw new Error(`Unexpected error accessing file ${filePath}: ${error.message}`)
         }
       }
     } else {
-      command.error(`Unknown error occurred`, {exit: 1})
+      throw new Error(`Unknown error occurred`)
     }
   }
 }
