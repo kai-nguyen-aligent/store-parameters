@@ -8,6 +8,11 @@ CLI tool for import and export SSM parameters
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20Me-orange)](https://coff.ee/kai.nguyen)
 
 <!-- toc -->
+* [store-parameters](#store-parameters)
+* [Features](#features)
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
 
 - [store-parameters](#store-parameters)
 - [Features](#features)
@@ -29,32 +34,25 @@ CLI tool for import and export SSM parameters
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/1.0.6 linux-x64 node-v20.19.4
+store-parameters/1.1.0 linux-x64 node-v20.19.5
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [store-parameters](#store-parameters)
-- [Features](#features)
-- [Usage](#usage)
-- [Commands](#commands)
-  - [`store-parameters export FILE`](#store-parameters-export-file)
-  - [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-  - [`store-parameters import FILE`](#store-parameters-import-file)
+* [`store-parameters export FILE`](#store-parameters-export-file)
+* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+* [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -62,8 +60,7 @@ Export SSM path to csv file
 
 ```
 USAGE
-  $ store-parameters export FILE -p <value> [--json] [--debug] [--profile <value>] [--region <value>] [-d
-    <value>]
+  $ store-parameters export FILE -p <value> [--json] [--profile <value>] [--region <value>] [-d <value>]
 
 ARGUMENTS
   FILE  Output csv file
@@ -71,7 +68,6 @@ ARGUMENTS
 FLAGS
   -d, --delimiter=<value>  Custom delimiter of csv file
   -p, --path=<value>       (required) SSM path to export
-      --debug              Enable debug mode
       --profile=<value>    AWS profile name in ~/.aws/credentials
       --region=<value>     [default: ap-southeast-2] AWS region
 
@@ -85,7 +81,7 @@ EXAMPLES
   $ store-parameters export <path-to-csv-file> --path </ssm/path>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.0.6/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.0/src/commands/export.ts)_
 
 ## `store-parameters help [COMMAND]`
 
@@ -113,14 +109,13 @@ Import csv file to SSM
 
 ```
 USAGE
-  $ store-parameters import FILE [--json] [--debug] [--profile <value>] [--region <value>] [-d <value>]
+  $ store-parameters import FILE [--json] [--profile <value>] [--region <value>] [-d <value>]
 
 ARGUMENTS
   FILE  Input csv file
 
 FLAGS
   -d, --delimiter=<value>  Custom delimiter of csv file
-      --debug              Enable debug mode
       --profile=<value>    AWS profile name in ~/.aws/credentials
       --region=<value>     [default: ap-southeast-2] AWS region
 
@@ -134,6 +129,5 @@ EXAMPLES
   $ store-parameters import <path-to-csv-file>
 ```
 
-_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.0.6/src/commands/import.ts)_
-
+_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.0/src/commands/import.ts)_
 <!-- commandsstop -->
