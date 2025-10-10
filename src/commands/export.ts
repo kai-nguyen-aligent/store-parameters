@@ -21,16 +21,16 @@ export default class Export extends BaseCommand<typeof Export> {
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Export)
-    const {debug, path, profile, region} = flags
+    const {path, profile, region} = flags
 
-    const awsProfile = profile || (await getProfileFromCredentials(this, debug))
+    const awsProfile = profile || (await getProfileFromCredentials(this))
 
     const isConfirmed = await confirm({
       message: `Are you sure you want to export SSM parameters from ${awsProfile}?`,
     })
 
     if (!isConfirmed) {
-      this.warn('Operation cancelled by user')
+      this.failed('Operation cancelled by user')
       return
     }
 
@@ -93,6 +93,6 @@ export default class Export extends BaseCommand<typeof Export> {
     }
 
     await exportToCSV(parameters, args.file, flags.delimiter, this)
-    this.log(`Exported ${parameters.length} parameters to ${args.file}!`)
+    this.success(`Exported ${parameters.length} parameters to ${args.file}!`)
   }
 }

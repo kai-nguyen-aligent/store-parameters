@@ -8,37 +8,28 @@ CLI tool for import and export SSM parameters
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20Me-orange)](https://coff.ee/kai.nguyen)
 
 <!-- toc -->
-* [store-parameters](#store-parameters)
-* [Binary Usage](#binary-usage)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
 
-# Binary Usage
+- [store-parameters](#store-parameters)
+- [Features](#features)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`store-parameters export FILE`](#store-parameters-export-file)
+  - [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+  - [`store-parameters import FILE`](#store-parameters-import-file)
 
-1. Download prebuilt binary from [Releases](https://github.com/kai-nguyen-aligent/store-parameters/releases)
-2. Extract the binary and add to your PATH:
+# Features
 
-```bash
-  # If `~/bin` does not exist, run
-  mkdir -p ~/bin
-  tar -xzf store-parameters-v0.0.5-eba96c0-linux-x64.tar.gz -C ~/bin
-  chmod +x ~/bin/store-parameters/bin/store-parameters
-  # Add new binary to your PATH
-  echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-  source ~/.bashrc
-```
-
-3. Test if the tool works correctly
-
-```sh-session
-  $ store-parameters (--version)
-  store-parameters/0.0.6 linux-x64 node-v20.18.0
-```
+- **🔄 Import & Export** - Seamlessly import and export AWS SSM parameters to/from CSV files
+- **👤 AWS Profile Support** - Select from multiple AWS profiles with interactive prompts and MFA support
+- **🔐 1Password Integration** - Reference secrets directly from 1Password vaults using `op://` URI format
+- **🔒 Secure Strings** - Full support for both `String` and `SecureString` parameter types
+- **📊 Custom Delimiters** - Support for CSV, TSV, and custom delimiter formats
+- **✅ CSV Validation** - Built-in validation to ensure data integrity before import
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g store-parameters
 $ store-parameters COMMAND
@@ -50,14 +41,20 @@ USAGE
   $ store-parameters COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
+
+- [store-parameters](#store-parameters)
+- [Features](#features)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`store-parameters export FILE`](#store-parameters-export-file)
+  - [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+  - [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -138,4 +135,5 @@ EXAMPLES
 ```
 
 _See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.0.6/src/commands/import.ts)_
+
 <!-- commandsstop -->
