@@ -8,6 +8,7 @@
   },
   "bugs": "https://github.com/kai-nguyen-aligent/store-parameters/issues",
   "dependencies": {
+    "@1password/op-js": "^0.1.13",
     "@aws-sdk/client-ssm": "^3.864.0",
     "@aws-sdk/credential-providers": "^3.864.0",
     "@inquirer/prompts": "^5.5.0",
@@ -15,6 +16,7 @@
     "@json2csv/node": "^7.0.6",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
+    "arktype": "^2.1.22",
     "chalk": "^5.4.1",
     "csvtojson": "^2.0.10"
   },

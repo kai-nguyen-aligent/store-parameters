@@ -1,10 +1,12 @@
 /* eslint-disable no-fallthrough */
+import {read, validateCli} from '@1password/op-js'
 import {Parameter} from '@aws-sdk/client-ssm'
 import {fromIni} from '@aws-sdk/credential-providers'
 import {input, select} from '@inquirer/prompts'
 import stringQuoteOnlyIfNecessaryFormatter from '@json2csv/formatters/stringQuoteOnlyIfNecessary.js'
 import {AsyncParser} from '@json2csv/node'
 import {Command} from '@oclif/core'
+import {ArkErrors, type} from 'arktype'
 import csvtojson from 'csvtojson'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -23,6 +25,8 @@ export interface StoreParameter {
   Value: string
   Version: number
 }
+
+const paramValidator = type([{Name: 'string', Type: '"SecureString" | "String"', Value: 'string'}])
 
 export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
   fromIni({
@@ -57,14 +61,23 @@ export const parseCSV = async (
     command.log(`Parsing file: ${absolutePath} using delimiter "${delimiter}"`)
   }
 
-  const params = (await csvtojson({delimiter}).fromFile(absolutePath)) as Pick<
-    StoreParameter,
-    'Name' | 'Type' | 'Value'
-  >[]
+  const rawParams = await csvtojson({delimiter}).fromFile(absolutePath)
+  const result = paramValidator(rawParams)
 
-  // TODO: CSV validation
+  if (result instanceof ArkErrors) {
+    command.error(result.summary, {
+      exit: 1,
+      message: 'CSV validation failed',
+      suggestions: [
+        'Check that your CSV file has the required columns: Name, Type, Value',
+        'Ensure Type column contains only "String" or "SecureString"',
+        'We support custom delimiters, pass your delimiter via "--delimiter" flag',
+        'Example format:\nName,Type,Value\n/app/config/database-name,String,my-database-name\n/app/config/api-key,SecureString,op://vault/item/my-api-key\n',
+      ],
+    })
+  }
 
-  return params
+  return result
 }
 
 export const exportToCSV = async (
@@ -186,4 +199,19 @@ export function checkFileAccess(filePath: string, command: Command, debug = fals
       throw new Error(`Unknown error occurred`)
     }
   }
+}
+
+export function checkOnePasswordCli(command: Command) {
+  validateCli().catch((err) => {
+    command.error(err.message, {
+      message: 'Unable to access 1Password CLI',
+      suggestions: ['Ensure that 1Password CLI is installed'],
+      ref: 'https://developer.1password.com/docs/cli',
+    })
+  })
+}
+
+export function getOnePasswordSecret(ref: string, command: Command) {
+  command.log(`Reading 1Password secret at ${ref}`)
+  return read.parse(ref, {noNewline: true})
 }

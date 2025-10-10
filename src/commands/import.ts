@@ -5,7 +5,13 @@ import {Args} from '@oclif/core'
 import chalk from 'chalk'
 
 import {BaseCommand} from '../utils/base-command.js'
-import {getCredentials, getProfileFromCredentials, parseCSV} from '../utils/utilities.js'
+import {
+  checkOnePasswordCli,
+  getCredentials,
+  getOnePasswordSecret,
+  getProfileFromCredentials,
+  parseCSV,
+} from '../utils/utilities.js'
 
 export default class Import extends BaseCommand<typeof Import> {
   static override args = {
@@ -28,7 +34,14 @@ export default class Import extends BaseCommand<typeof Import> {
       this.warn('Operation cancelled by user')
       return
     }
+
     const params = await parseCSV(args.file, flags.delimiter, this, debug)
+
+    const needOnePasswordCli = params.some((p) => p.Value.toLowerCase().startsWith('op://'))
+
+    if (needOnePasswordCli) {
+      checkOnePasswordCli(this)
+    }
 
     const client = new SSMClient({
       credentials: await getCredentials(awsProfile),
@@ -36,11 +49,15 @@ export default class Import extends BaseCommand<typeof Import> {
     })
 
     for (const param of params) {
+      const value = param.Value.toLowerCase().startsWith('op://')
+        ? getOnePasswordSecret(param.Value, this)
+        : param.Value
+
       const command = new PutParameterCommand({
         Name: param.Name,
         Overwrite: true,
         Type: param.Type,
-        Value: param.Value,
+        Value: value,
       })
 
       await client.send(command)
