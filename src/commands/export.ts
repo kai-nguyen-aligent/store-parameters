@@ -43,6 +43,7 @@ export default class Export extends BaseCommand<typeof Export> {
     const parameters: Parameter[] = []
     let nextToken: string | undefined
 
+    this.progress('Start exporting parameters...\n')
     do {
       const command = new GetParametersByPathCommand({
         MaxResults: 10,
@@ -93,6 +94,8 @@ export default class Export extends BaseCommand<typeof Export> {
     }
 
     await exportToCSV(parameters, args.file, flags.delimiter, this)
+
+    this.log('\n')
     this.success(`Exported ${parameters.length} parameters to ${args.file}!`)
   }
 }

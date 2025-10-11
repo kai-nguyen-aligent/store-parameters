@@ -67,4 +67,8 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
   success(message: string): void {
     this.log(chalk.green(`✅ ${message}`))
   }
+
+  progress(message: string): void {
+    this.log(chalk.cyan(`⏳ ${message}`))
+  }
 }

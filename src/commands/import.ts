@@ -65,26 +65,23 @@ export default class Import extends BaseCommand<typeof Import> {
       region,
     })
 
+    this.progress('Start importing parameters...\n')
     for (const param of params) {
-      const value = param.Value.toLowerCase().startsWith('op://')
+      const {Name, Type} = param
+      const Value = param.Value.toLowerCase().startsWith('op://')
         ? getOnePasswordSecret(param.Value, this)
         : param.Value
 
-      const command = new PutParameterCommand({
-        Name: param.Name,
-        Overwrite: true,
-        Type: param.Type,
-        Value: value,
-      })
+      const command = new PutParameterCommand({Name, Type, Value, Overwrite: true})
 
       await client.send(command)
-      this.info(`Imported ${param.Name} as ${param.Type}...`)
+      this.info(`Imported ${Name} as ${Type}...`)
 
       await new Promise((resolve) => {
         setTimeout(resolve, 200)
       })
     }
-
+    this.log('\n')
     this.success(`All ${params.length} parameters imported to ${awsProfile} Parameter Store!`)
   }
 }
