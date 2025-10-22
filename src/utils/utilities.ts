@@ -28,7 +28,7 @@ export interface StoreParameter {
   Version: number
 }
 
-const paramsSchema = type({Name: 'string', Type: '"SecureString" | "String"', Value: 'string'}).array()
+const paramsSchema = type({Name: 'string', Type: '"SecureString" | "String"', Value: 'string'}).array().atLeastLength(1)
 
 export const getCredentials = async (profile: string): Promise<ReturnType<typeof fromIni>> =>
   fromIni({
@@ -55,9 +55,8 @@ export const parseCSV = async (filePath: string, customDelimiter: string | undef
   checkFileAccess(absolutePath, command)
 
   const rawParams = await csvtojson({delimiter}).fromFile(absolutePath)
-  const result = paramsSchema(rawParams)
 
-  return result
+  return paramsSchema(rawParams)
 }
 
 export const exportToCSV = async (
