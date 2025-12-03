@@ -50,9 +50,13 @@ USAGE
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
+- [store-parameters](#store-parameters)
+- [Features](#features)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`store-parameters export FILE`](#store-parameters-export-file)
+  - [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+  - [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
