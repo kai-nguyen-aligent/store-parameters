@@ -39,7 +39,7 @@ $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/1.1.2 linux-x64 node-v20.19.5
+store-parameters/1.1.2 darwin-arm64 node-v24.11.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
@@ -50,9 +50,13 @@ USAGE
 # Commands
 
 <!-- commands -->
-* [`store-parameters export FILE`](#store-parameters-export-file)
-* [`store-parameters help [COMMAND]`](#store-parameters-help-command)
-* [`store-parameters import FILE`](#store-parameters-import-file)
+- [store-parameters](#store-parameters)
+- [Features](#features)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`store-parameters export FILE`](#store-parameters-export-file)
+  - [`store-parameters help [COMMAND]`](#store-parameters-help-command)
+  - [`store-parameters import FILE`](#store-parameters-import-file)
 
 ## `store-parameters export FILE`
 
@@ -60,7 +64,7 @@ Export SSM path to csv file
 
 ```
 USAGE
-  $ store-parameters export FILE -p <value> [--json] [--profile <value>] [--region <value>] [-d <value>]
+  $ store-parameters export FILE -p <value> [--json] [-d <value>] [--profile <value>] [--region <value>]
 
 ARGUMENTS
   FILE  Output csv file
@@ -92,7 +96,7 @@ USAGE
   $ store-parameters help [COMMAND...] [-n]
 
 ARGUMENTS
-  COMMAND...  Command to show help for.
+  [COMMAND...]  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
@@ -101,7 +105,7 @@ DESCRIPTION
   Display help for store-parameters.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.11/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
 
 ## `store-parameters import FILE`
 
@@ -109,7 +113,7 @@ Import csv file to SSM
 
 ```
 USAGE
-  $ store-parameters import FILE [--json] [--profile <value>] [--region <value>] [-d <value>]
+  $ store-parameters import FILE [--json] [-d <value>] [--profile <value>] [--region <value>]
 
 ARGUMENTS
   FILE  Input csv file
