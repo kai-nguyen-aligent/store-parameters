@@ -47,9 +47,9 @@ export default class Export extends BaseCommand<typeof Export> {
     do {
       const command = new GetParametersByPathCommand({
         MaxResults: 10,
+        NextToken: nextToken,
         Path,
         Recursive: true,
-        NextToken: nextToken,
         WithDecryption: true,
       })
 

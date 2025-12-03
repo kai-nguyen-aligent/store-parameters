@@ -4,6 +4,7 @@ import {confirm} from '@inquirer/prompts'
 import {Args} from '@oclif/core'
 import {ArkErrors} from 'arktype'
 import chalk from 'chalk'
+
 import {BaseCommand} from '../utils/base-command.js'
 import {
   checkOnePasswordCli,
@@ -72,7 +73,7 @@ export default class Import extends BaseCommand<typeof Import> {
         ? getOnePasswordSecret(param.Value, this)
         : param.Value
 
-      const command = new PutParameterCommand({Name, Type, Value, Overwrite: true})
+      const command = new PutParameterCommand({Name, Overwrite: true, Type, Value})
 
       await client.send(command)
       this.info(`Imported ${Name} as ${Type}...`)
@@ -81,6 +82,7 @@ export default class Import extends BaseCommand<typeof Import> {
         setTimeout(resolve, 200)
       })
     }
+
     this.log('\n')
     this.success(`All ${params.length} parameters imported to ${awsProfile} Parameter Store!`)
   }

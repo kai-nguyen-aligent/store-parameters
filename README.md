@@ -39,7 +39,7 @@ $ npm install -g store-parameters
 $ store-parameters COMMAND
 running command...
 $ store-parameters (--version)
-store-parameters/1.1.1 linux-x64 node-v20.19.5
+store-parameters/1.1.2 darwin-arm64 node-v24.11.0
 $ store-parameters --help [COMMAND]
 USAGE
   $ store-parameters COMMAND
@@ -60,7 +60,7 @@ Export SSM path to csv file
 
 ```
 USAGE
-  $ store-parameters export FILE -p <value> [--json] [--profile <value>] [--region <value>] [-d <value>]
+  $ store-parameters export FILE -p <value> [--json] [-d <value>] [--profile <value>] [--region <value>]
 
 ARGUMENTS
   FILE  Output csv file
@@ -81,7 +81,7 @@ EXAMPLES
   $ store-parameters export <path-to-csv-file> --path </ssm/path>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.1/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.2/src/commands/export.ts)_
 
 ## `store-parameters help [COMMAND]`
 
@@ -92,7 +92,7 @@ USAGE
   $ store-parameters help [COMMAND...] [-n]
 
 ARGUMENTS
-  COMMAND...  Command to show help for.
+  [COMMAND...]  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
@@ -101,7 +101,7 @@ DESCRIPTION
   Display help for store-parameters.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.11/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
 
 ## `store-parameters import FILE`
 
@@ -109,7 +109,7 @@ Import csv file to SSM
 
 ```
 USAGE
-  $ store-parameters import FILE [--json] [--profile <value>] [--region <value>] [-d <value>]
+  $ store-parameters import FILE [--json] [-d <value>] [--profile <value>] [--region <value>]
 
 ARGUMENTS
   FILE  Input csv file
@@ -129,5 +129,5 @@ EXAMPLES
   $ store-parameters import <path-to-csv-file>
 ```
 
-_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.1/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/kai-nguyen-aligent/store-parameters/blob/v1.1.2/src/commands/import.ts)_
 <!-- commandsstop -->

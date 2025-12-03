@@ -11,6 +11,7 @@ import csvtojson from 'csvtojson'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
 import Export from '../commands/export.js'
 import Import from '../commands/import.js'
 
@@ -104,7 +105,7 @@ export const exportToCSV = async (
   }
 }
 
-export async function getProfileFromCredentials(command: Import | Export) {
+export async function getProfileFromCredentials(command: Export | Import) {
   const configPath = path.join(os.homedir(), '.aws', 'config')
   const configProfiles = collectProfiles(configPath, /^\[profile ([^\]]+)]/gm, command)
 
@@ -122,8 +123,8 @@ export async function getProfileFromCredentials(command: Import | Export) {
   })
 }
 
-function collectProfiles(path: string, reg: RegExp, command: Import | Export) {
-  let profiles: string[] = []
+function collectProfiles(path: string, reg: RegExp, command: Export | Import) {
+  const profiles: string[] = []
   try {
     checkFileAccess(path, command)
     const configContent = fs.readFileSync(path, 'utf8')
@@ -138,7 +139,7 @@ function collectProfiles(path: string, reg: RegExp, command: Import | Export) {
   return profiles
 }
 
-export function checkFileAccess(filePath: string, command: Import | Export): void {
+export function checkFileAccess(filePath: string, _command: Export | Import): void {
   try {
     fs.accessSync(filePath, fs.constants.R_OK)
   } catch (error) {
@@ -162,17 +163,17 @@ export function checkFileAccess(filePath: string, command: Import | Export): voi
         }
       }
     } else {
-      throw new Error(`Unknown error occurred`)
+      throw new TypeError(`Unknown error occurred`)
     }
   }
 }
 
 export function checkOnePasswordCli(command: Import) {
-  validateCli().catch((err) => {
-    command.error(err.message, {
+  validateCli().catch((error) => {
+    command.error(error.message, {
       message: 'Unable to access 1Password CLI',
-      suggestions: ['Ensure that 1Password CLI is installed'],
       ref: 'https://developer.1password.com/docs/cli',
+      suggestions: ['Ensure that 1Password CLI is installed'],
     })
   })
 }
